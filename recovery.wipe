@@ -1,0 +1,2 @@
+# All the partitions to be wiped (in order) under recovery.
+/dev/block/bootdevice/by-name/userdata

@@ -57,7 +57,6 @@ BOARD_KERNEL_CMDLINE += swiotlb=1
 BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware_mnt/image
 BOARD_KERNEL_CMDLINE += loop.max_part=7
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
-BOARD_KERNEL_CMDLINE += skip_override androidboot.fastboot=1
 # Prebuilt kernel
 TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/prebuilt/Image.gz-dtb
 # Make boot image arguments
@@ -73,8 +72,6 @@ BOARD_FLASH_BLOCK_SIZE := 262144
 
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
-TARGET_NO_KERNEL := false
-TARGET_NO_RECOVERY := false
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 
 # Workaround for error copying vendor files to recovery ramdisk
@@ -88,22 +85,22 @@ BOARD_SUPPRESS_SECURE_ERASE := true
 BOARD_USE_FRAMEBUFFER_ALPHA_CHANNEL := true
 RECOVERY_SDCARD_ON_DATA := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
-# Partitions (listed in the file) to be wiped under recovery.
-TARGET_RECOVERY_WIPE := $(LOCAL_PATH)/recovery.wipe
 TARGET_USES_MKE2FS := true
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+BOARD_INCLUDE_RECOVERY_DTBO := true
+BOARD_PREBUILT_DTBOIMAGE := $(LOCAL_PATH)/prebuilt/dtbo.img
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
+TARGET_RECOVERY_WIPE := $(LOCAL_PATH)/recovery.wipe
 
 # Qcom specific fixes
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 
 # Recovery device modules
-# TARGET_RECOVERY_DEVICE_MODULES += android.hardware.boot@1.0
+TARGET_RECOVERY_DEVICE_MODULES += android.hardware.boot@1.0
 
 ########
 # TWRP #
 ########
-
 DEVICE_SCREEN_WIDTH := 1080
 DEVICE_SCREEN_HEIGHT := 2340
 TW_INPUT_BLACKLIST := "hbtp_vm"
@@ -111,6 +108,8 @@ TW_NO_BATT_PERCENT := false
 TW_USE_TOOLBOX := true
 TW_IGNORE_MISC_WIPE_DATA := true
 TW_HAS_EDL_MODE := true
+USE_RECOVERY_INSTALLER := true
+RECOVERY_INSTALLER_PATH := device/oneplus/guacamole/installer
 
 # Display
 TW_THEME := portrait_hdpi
@@ -122,14 +121,6 @@ TW_H_OFFSET := -80
 TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
 TW_NO_SCREEN_BLANK := true
 TW_NO_SCREEN_TIMEOUT := true
-TW_USE_LEDS_HAPTICS := true
-
-# TWRP
-
-TARGET_DISABLE_TRIPLE_BUFFERING := false
-TW_THEME := portrait_hdpi
-
-TW_CUSTOM_CPU_TEMP_PATH := /sys/class/thermal/thermal_zone4/temp
 
 # Storage & FS
 TW_HAS_MTP := true
@@ -139,25 +130,19 @@ TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 TW_DEFAULT_EXTERNAL_STORAGE := true
-TW_NO_USB_STORAGE := false
-TW_INCLUDE_NTFS_3G := true
 
 # Locale
 TW_EXTRA_LANGUAGES := true
-TW_DEFAULT_LANGUAGE := en_EN
+TW_DEFAULT_LANGUAGE := en
 
 # Excludes
-TW_EXCLUDE_SUPERSU := true
 TW_EXCLUDE_TWRPAPP := true
-TW_EXCLUDE_DEFAULT_USB_INIT := true
-TW_INCLUDE_REPACKTOOLS := true
 
-# Crypto
+# Encryption
+PLATFORM_SECURITY_PATCH := 2019-05-05
 TW_INCLUDE_CRYPTO := true
-TW_CRYPTO_FS_TYPE := "ext4"
-TW_CRYPTO_REAL_BLKDEV := "/dev/block/platform/bootdevice/by-name/userdata"
-TW_CRYPTO_MNT_POINT := "/data"
-TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,discard,noauto_da_alloc,barrier=0,data=ordered"
+TW_INCLUDE_CRYPTO_FBE := true
+TW_INCLUDE_FBE := true
 
 # Debug
 TARGET_USES_LOGD := true

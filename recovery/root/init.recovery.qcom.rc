@@ -10,6 +10,9 @@ on fs
     chown system system /dev/ion
     install_keyring
 
+on property:ro.crypto.state=encrypted
+    start sbinqseecomd
+
 on init
     mkdir /system/bin
     mkdir /system/etc

@@ -52,7 +52,7 @@ recoverycpio=`(ls ramdisk-twrp.cpio || ls ramdisk-recovery.cpio) 2>/dev/null`
 
 chmod 755 "$tool"
 
-print "Running boot image patcher on slot $slot..."
+print "Running boot image patcher"
 dd if=/dev/block/bootdevice/by-name/boot "of=$target"
 "$tool" unpack -h boot.img
 
